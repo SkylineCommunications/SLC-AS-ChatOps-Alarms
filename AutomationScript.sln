@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33214.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{DFE7B1DA-1A28-4A87-BF9A-8BEC71C0B18A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{6B82C723-E51E-47E2-9E06-C40B1BC32BF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dlls", "Dlls", "{8D1E1AAD-3CE6-463C-BD49-0821763A6715}"
+	ProjectSection(SolutionItems) = preProject
+		Dlls\readme.txt = Dlls\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{53CBDEBA-434E-42D7-9F55-406797BC3018}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\readme.txt = Documentation\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Analysis", "Code Analysis", "{9C016BB2-16CB-4C3B-B068-247B81C67AFF}"
+	ProjectSection(SolutionItems) = preProject
+		Internal\Code Analysis\qaction-debug.ruleset = Internal\Code Analysis\qaction-debug.ruleset
+		Internal\Code Analysis\qaction-release.ruleset = Internal\Code Analysis\qaction-release.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Send Channel Notification - Alarms from Correlation", "Send Channel Notification - Alarms from Correlation", "{7110510F-1D62-4CE8-9CDE-34B1728485CD}"
+	ProjectSection(SolutionItems) = preProject
+		Send Channel Notification - Alarms from Correlation.xml = Send Channel Notification - Alarms from Correlation.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{7D73639B-4259-445D-95C3-4D2ABA243283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Send Channel Notification - Alarms from Correlation_4", "Send Channel Notification - Alarms from Correlation_4\Send Channel Notification - Alarms from Correlation_4.csproj", "{18ED0EB9-BF84-4926-9EA1-859764E2D992}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C016BB2-16CB-4C3B-B068-247B81C67AFF} = {DFE7B1DA-1A28-4A87-BF9A-8BEC71C0B18A}
+		{7110510F-1D62-4CE8-9CDE-34B1728485CD} = {6B82C723-E51E-47E2-9E06-C40B1BC32BF3}
+		{7D73639B-4259-445D-95C3-4D2ABA243283} = {7110510F-1D62-4CE8-9CDE-34B1728485CD}
+		{18ED0EB9-BF84-4926-9EA1-859764E2D992} = {7D73639B-4259-445D-95C3-4D2ABA243283}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE581C6D-413D-44B4-A928-06D2F4BE3B65}
+	EndGlobalSection
+EndGlobal

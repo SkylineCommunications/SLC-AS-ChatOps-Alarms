@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DMSScript options="272" xmlns="http://www.skyline.be/automation">
+	<Name>Send Channel Notification - Alarms from Correlation</Name>
+	<Description>Sends a notification in a given channel in Microsoft Teams. Make sure to have a tenant set for your organization in the Admin App (https://admin.dataminer.services).</Description>
+	<Type>Automation</Type>
+	<Author>SKYLINE2\JordyAM</Author>
+	<CheckSets>FALSE</CheckSets>
+	<Folder>Examples/ChatOps/Teams/Integration</Folder>
+	<Protocols>
+	</Protocols>
+	<Memory>
+	</Memory>
+	<Parameters>
+		<ScriptParameter id="1" type="string" values="TeamsExample">
+			<Description>Team Id</Description>
+		</ScriptParameter>
+		<ScriptParameter id="2" type="string" values="ChannelsExample">
+			<Description>Channel Id</Description>
+		</ScriptParameter>
+	</Parameters>
+	<Script>
+		<Exe id="4" type="csharp">
+			<Value>
+				<![CDATA[[Project:Send Channel Notification - Alarms from Correlation_4]]]>
+			</Value>
+			<!--<Param type="debug">true</Param>-->
+			<Message/>
+		</Exe>
+	</Script>
+</DMSScript>
