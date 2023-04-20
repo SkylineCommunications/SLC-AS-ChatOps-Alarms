@@ -3,7 +3,7 @@ Automation script that implements the MS Teams bot integration to receive alarm 
 
 # Pre-requisites
 
-Kindly ensure that your DataMiner system adheres to the pre-requisites described [here](https://docs.dataminer.services/user-guide/Cloud_Platform/TeamsBot/Microsoft_Teams_Chat_Integration.html#server-side-prerequisites).
+Kindly ensure that your DataMiner system and your Microsoft Teams adhere to the pre-requisites described in [DM Docs](https://docs.dataminer.services/user-guide/Cloud_Platform/TeamsBot/Microsoft_Teams_Chat_Integration.html#server-side-prerequisites).
 
 # Installation
 
