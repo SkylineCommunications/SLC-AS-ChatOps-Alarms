@@ -3,7 +3,7 @@
 	<Name>Send Channel Notification - Alarms from Correlation</Name>
 	<Description>Sends a notification in a given channel in Microsoft Teams. Make sure to have a tenant set for your organization in the Admin App (https://admin.dataminer.services).</Description>
 	<Type>Automation</Type>
-	<Author>SKYLINE2\JordyAM</Author>
+	<Author>Skyline</Author>
 	<CheckSets>FALSE</CheckSets>
 	<Folder>Examples/ChatOps/Teams/Integration</Folder>
 	<Protocols>

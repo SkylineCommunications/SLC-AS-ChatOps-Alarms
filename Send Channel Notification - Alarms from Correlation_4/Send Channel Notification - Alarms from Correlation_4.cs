@@ -1,26 +1,27 @@
 using System;
+
 using Skyline.DataMiner.Automation;
+using Skyline.DataMiner.Core.DataMinerSystem.Automation;
+using Skyline.DataMiner.Core.DataMinerSystem.Common;
 using Skyline.DataMiner.DcpChatIntegrationHelper.Common;
 using Skyline.DataMiner.DcpChatIntegrationHelper.Teams;
-using Skyline.DataMiner.Library.Automation;
-using Skyline.DataMiner.Library.Common;
 
 public class Script
 {
-	public void Run(Engine engine)
+	public void Run(IEngine engine)
 	{
 		var chatIntegrationHelper = new ChatIntegrationHelperBuilder().Build();
 		try
 		{
 			var teamIdParam = engine.GetScriptParam("Team Id");
-			if (string.IsNullOrWhiteSpace(teamIdParam?.Value))
+			if (String.IsNullOrWhiteSpace(teamIdParam?.Value))
 			{
 				engine.ExitFail("'Team Id' parameter is required.");
 				return;
 			}
 
 			var channelIdParam = engine.GetScriptParam("Channel Id");
-			if (string.IsNullOrWhiteSpace(channelIdParam?.Value))
+			if (String.IsNullOrWhiteSpace(channelIdParam?.Value))
 			{
 				engine.ExitFail("'Channel Id' parameter is required.");
 				return;
@@ -41,13 +42,13 @@ public class Script
 			string value = alarmInfo[10];
 
 			// string elementName = engine.FindElement(dmaId, elementId).ElementName;
-			var element = dms.GetElement(new Skyline.DataMiner.Library.Common.DmsElementId(dmaId, elementId));
+			var element = dms.GetElement(new DmsElementId(dmaId, elementId));
 			string elementName = element.Name;
 			// string parameterDescr = tbd
 
 			engine.GenerateInformation("severity: " + severity);
 			engine.GenerateInformation("elementName: " + elementName);
-			
+
 			try
 			{
 				// chatIntegrationHelper.Teams.TrySendChannelNotification(teamIdParam.Value, channelIdParam.Value, engine.GetScriptParam(65006).Value);
