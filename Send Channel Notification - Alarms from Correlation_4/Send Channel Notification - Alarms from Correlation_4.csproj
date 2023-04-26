@@ -49,14 +49,14 @@
     <Compile Include="Send Channel Notification - Alarms from Correlation_4.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Skyline.DataMiner.Core.DataMinerSystem.Automation">
+      <Version>1.1.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Skyline.DataMiner.DcpChatIntegrationHelper">
       <Version>1.1.1.4</Version>
     </PackageReference>
     <PackageReference Include="Skyline.DataMiner.Dev.Automation">
       <Version>10.3.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="SLC.Lib.Automation">
-      <Version>1.4.0.2</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.1.118</Version>
@@ -67,7 +67,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties DisLinkId="4" DisProjectType="automationScriptProject" DisLinkedXmlFile="..\Send Channel Notification - Alarms from Correlation.xml" />
+      <UserProperties DisLinkedXmlFile="..\Send Channel Notification - Alarms from Correlation.xml" DisProjectType="automationScriptProject" DisLinkId="4" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
