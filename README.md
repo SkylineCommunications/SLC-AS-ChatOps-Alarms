@@ -4,11 +4,9 @@ This repository contains automation scripts that can help you to interact with t
 
 This contains the following automation scripts:
 
-- [SLC-AS-ChatOps-Alarms](#slc-as-chatops-alarms)
-- [Pre-requisites](#pre-requisites)
-  - [Send Channel Notification - Alarms from Correlation](#send-channel-notification---alarms-from-correlation)
-    - [Installation](#installation)
-  - [Alarm Info](#alarm-info)
+[Send Channel Notification - Alarms from Correlation](#send-channel-notification---alarms-from-correlation)
+
+[Alarm Info](#alarm-info)
 
 # Pre-requisites
 
@@ -20,7 +18,7 @@ Automation script that implements the MS Teams bot integration to receive alarm 
 ### Installation
 
 1. Deploy the automation script from this repo to your DMS.
-   This can be done by cloning the repo and using DIS to publish in your DMS or going to the Catalog and deploy from there or use the DataMiner CICD Automation GitHub Action.
+   - This can be done by cloning the repo and using DIS to publish in your DMS or going to the Catalog and deploy from there or use the DataMiner CICD Automation GitHub Action.
 
 2. Create memory files in the automation scripts to easily save the Team ID and Channel ID (this can be done with PowerShell - [details here](https://learn.microsoft.com/en-us/powershell/module/teams/?view=teams-ps))
 
