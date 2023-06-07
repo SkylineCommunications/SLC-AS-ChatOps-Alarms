@@ -32,6 +32,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{7D73
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Send Channel Notification - Alarms from Correlation_4", "Send Channel Notification - Alarms from Correlation_4\Send Channel Notification - Alarms from Correlation_4.csproj", "{18ED0EB9-BF84-4926-9EA1-859764E2D992}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GetElementAlarms", "GetElementAlarms", "{6219E911-B4D0-4D04-A319-F9D2AD94EB7C}"
+	ProjectSection(SolutionItems) = preProject
+		GetElementAlarms.xml = GetElementAlarms.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{D56CCB98-4311-423E-B6F2-00DD927FEDC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetElementAlarms_1", "GetElementAlarms_1\GetElementAlarms_1.csproj", "{7C0248A9-1444-4140-84E5-33D24DF39758}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GetElementHistoryAlarms", "GetElementHistoryAlarms", "{178011CC-6AD7-430D-B5C6-653277D28DDB}"
+	ProjectSection(SolutionItems) = preProject
+		GetElementHistoryAlarms.xml = GetElementHistoryAlarms.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{6640EE4B-1376-427D-9E44-E3CF3FD257DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetElementHistoryAlarms_1", "GetElementHistoryAlarms_1\GetElementHistoryAlarms_1.csproj", "{8C077A72-7CF7-4696-8F70-7A373C7B75BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +60,14 @@ Global
 		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18ED0EB9-BF84-4926-9EA1-859764E2D992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C0248A9-1444-4140-84E5-33D24DF39758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C0248A9-1444-4140-84E5-33D24DF39758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C0248A9-1444-4140-84E5-33D24DF39758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C0248A9-1444-4140-84E5-33D24DF39758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C077A72-7CF7-4696-8F70-7A373C7B75BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C077A72-7CF7-4696-8F70-7A373C7B75BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C077A72-7CF7-4696-8F70-7A373C7B75BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C077A72-7CF7-4696-8F70-7A373C7B75BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +77,12 @@ Global
 		{7110510F-1D62-4CE8-9CDE-34B1728485CD} = {6B82C723-E51E-47E2-9E06-C40B1BC32BF3}
 		{7D73639B-4259-445D-95C3-4D2ABA243283} = {7110510F-1D62-4CE8-9CDE-34B1728485CD}
 		{18ED0EB9-BF84-4926-9EA1-859764E2D992} = {7D73639B-4259-445D-95C3-4D2ABA243283}
+		{6219E911-B4D0-4D04-A319-F9D2AD94EB7C} = {6B82C723-E51E-47E2-9E06-C40B1BC32BF3}
+		{D56CCB98-4311-423E-B6F2-00DD927FEDC7} = {6219E911-B4D0-4D04-A319-F9D2AD94EB7C}
+		{7C0248A9-1444-4140-84E5-33D24DF39758} = {D56CCB98-4311-423E-B6F2-00DD927FEDC7}
+		{178011CC-6AD7-430D-B5C6-653277D28DDB} = {6B82C723-E51E-47E2-9E06-C40B1BC32BF3}
+		{6640EE4B-1376-427D-9E44-E3CF3FD257DE} = {178011CC-6AD7-430D-B5C6-653277D28DDB}
+		{8C077A72-7CF7-4696-8F70-7A373C7B75BF} = {6640EE4B-1376-427D-9E44-E3CF3FD257DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CE581C6D-413D-44B4-A928-06D2F4BE3B65}
