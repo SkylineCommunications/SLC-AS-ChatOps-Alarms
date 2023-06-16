@@ -52,6 +52,8 @@ dd/mm/2023	1.0.0.1		XXX, Skyline	Initial version
 namespace GetElementHistoryAlarms_1
 {
 	using System.Collections.Generic;
+	using System.Linq;
+	using AdaptiveCards;
 	using Newtonsoft.Json;
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Filters;
@@ -81,7 +83,7 @@ namespace GetElementHistoryAlarms_1
 
 			if (service == default(Service))
 			{
-				engine.ExitFail($"'{serviceName}' element not found!");
+				engine.ExitFail($"'{serviceName}' service not found!");
 				return;
 			}
 
@@ -111,25 +113,62 @@ namespace GetElementHistoryAlarms_1
 			var response = (ActiveAlarmsResponseMessage)engine.SendSLNetSingleResponseMessage(request);
 			AlarmEventMessage[] alarms = response.ActiveAlarms;
 
-			CurrentAlarms output = new CurrentAlarms { Alarms = new List<Alarm>() };
-			alarms.ForEach(a => output.Alarms.Add(new Alarm { ParameterName = a.ParameterName, ParameterValue = a.Value, Severity = a.Severity }));
+			var adaptiveCardBody = new List<AdaptiveElement>();
+			adaptiveCardBody.Add(new AdaptiveTextBlock
+			{
+				Type = "TextBlock",
+				Text = $"Current Alarms for {serviceName}.",
+				Weight = AdaptiveTextWeight.Bolder,
+				Size = AdaptiveTextSize.Large,
+			});
 
-			// engine.GenerateInformation(JsonConvert.SerializeObject(output));
-			engine.AddSingularJsonOutput(JsonConvert.SerializeObject(output));
+			alarms.OrderBy(x => x.Severity)
+				.ThenByDescending(x => x.RootTime)
+				.Take(10)
+				.ForEach(a =>
+				{
+					var infoFacts = new AdaptiveFactSet
+					{
+						Type = "FactSet",
+						Facts = new List<AdaptiveFact>
+						{
+							new AdaptiveFact("Parameter:", a.ParameterName),
+							new AdaptiveFact("Value:", a.Value),
+							new AdaptiveFact("Severity:", a.Severity),
+						},
+					};
+
+					var bpaResultsContainer = new AdaptiveContainer
+					{
+						Type = "Container",
+						Style = SeverityToContainerStyle(a.Severity),
+						Items = new List<AdaptiveElement> { infoFacts },
+					};
+
+					adaptiveCardBody.Add(bpaResultsContainer);
+				});
+
+			engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(adaptiveCardBody));
 		}
-	}
 
-	public class CurrentAlarms
-	{
-		public List<Alarm> Alarms { get; set; }
-	}
+		private AdaptiveContainerStyle SeverityToContainerStyle(string severity)
+		{
+			switch (severity)
+			{
+				case "Warning":
+				case "Minor":
+					return AdaptiveContainerStyle.Warning;
 
-	public class Alarm
-	{
-		public string ParameterName { get; set; }
+				case "Major":
+				case "Critical":
+					return AdaptiveContainerStyle.Attention;
 
-		public string ParameterValue { get; set; }
+				case "Normal":
+					return AdaptiveContainerStyle.Good;
 
-		public string Severity { get; set; }
+				default:
+					return AdaptiveContainerStyle.Emphasis;
+			}
+		}
 	}
 }

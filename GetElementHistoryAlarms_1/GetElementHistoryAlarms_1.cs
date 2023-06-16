@@ -54,9 +54,12 @@ namespace GetElementHistoryAlarms_1
 	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
+	using System.Linq;
+	using AdaptiveCards;
 	using Newtonsoft.Json;
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Filters;
+	using Skyline.DataMiner.Net.Helper;
 	using Skyline.DataMiner.Net.Messages;
 
 	/// <summary>
@@ -141,20 +144,78 @@ namespace GetElementHistoryAlarms_1
 
 			var response = engine.SendSLNetMessage(request);
 
-			CurrentAlarms output = new CurrentAlarms { Alarms = new List<Alarm>() };
+			//CurrentAlarms output = new CurrentAlarms { Alarms = new List<Alarm>() };
 
-			foreach (AlarmEventMessage alarm in response)
+			//foreach (AlarmEventMessage alarm in response)
+			//{
+			//	output.Alarms.Add(
+			//		new Alarm
+			//		{
+			//			ParameterName = alarm.ParameterName,
+			//			ParameterValue = alarm.Value,
+			//			Severity = alarm.Severity,
+			//		});
+			//}
+
+			//engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(output));
+
+			var adaptiveCardBody = new List<AdaptiveElement>();
+			adaptiveCardBody.Add(new AdaptiveTextBlock
 			{
-				output.Alarms.Add(
-					new Alarm
-					{
-						ParameterName = alarm.ParameterName,
-						ParameterValue = alarm.Value,
-						Severity = alarm.Severity,
-					});
-			}
+				Type = "TextBlock",
+				Text = $"Current Alarms for {elementName}.",
+				Weight = AdaptiveTextWeight.Bolder,
+				Size = AdaptiveTextSize.Large,
+			});
 
-			engine.AddSingularJsonOutput(JsonConvert.SerializeObject(output));
+			response.OrderBy(x => ((AlarmEventMessage)x).Severity)
+				.ThenByDescending(x => ((AlarmEventMessage)x).RootTime)
+				.Take(10)
+				.ForEach(x =>
+				{
+					var alarm = (AlarmEventMessage)x;
+					var infoFacts = new AdaptiveFactSet
+					{
+						Type = "FactSet",
+						Facts = new List<AdaptiveFact>
+						{
+							new AdaptiveFact("Parameter:", alarm.ParameterName),
+							new AdaptiveFact("Value:", alarm.Value),
+							new AdaptiveFact("Severity:", alarm.Severity),
+						},
+					};
+
+					var bpaResultsContainer = new AdaptiveContainer
+					{
+						Type = "Container",
+						Style = SeverityToContainerStyle(alarm.Severity),
+						Items = new List<AdaptiveElement> { infoFacts },
+					};
+
+					adaptiveCardBody.Add(bpaResultsContainer);
+				});
+
+			engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(adaptiveCardBody));
+		}
+
+		private AdaptiveContainerStyle SeverityToContainerStyle(string severity)
+		{
+			switch (severity)
+			{
+				case "Warning":
+				case "Minor":
+					return AdaptiveContainerStyle.Warning;
+
+				case "Major":
+				case "Critical":
+					return AdaptiveContainerStyle.Attention;
+
+				case "Normal":
+					return AdaptiveContainerStyle.Good;
+
+				default:
+					return AdaptiveContainerStyle.Emphasis;
+			}
 		}
 	}
 
