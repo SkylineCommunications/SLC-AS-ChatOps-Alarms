@@ -68,7 +68,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{4B62
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetServiceHistoryAlarm_1", "GetServiceHistoryAlarm_1\GetServiceHistoryAlarm_1.csproj", "{EF1C4F78-E98B-4CFF-A9E6-32691F88C398}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{F40B6900-2B16-404A-BB0E-1E0604105F8A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Library", "Library\Library.shproj", "{DEBA669E-113F-4DA0-B982-0017C79B40E3}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Library\Library.projitems*{7c0248a9-1444-4140-84e5-33d24df39758}*SharedItemsImports = 4
+		Library\Library.projitems*{8c077a72-7cf7-4696-8f70-7a373c7b75bf}*SharedItemsImports = 4
+		Library\Library.projitems*{9a2f7587-341c-4358-a2f1-83957416acd8}*SharedItemsImports = 4
+		Library\Library.projitems*{deba669e-113f-4da0-b982-0017c79b40e3}*SharedItemsImports = 13
+		Library\Library.projitems*{ef1c4f78-e98b-4cff-a9e6-32691f88c398}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -115,6 +126,7 @@ Global
 		{EEBDD0EA-98AD-405C-9B04-4C987EA03577} = {6B82C723-E51E-47E2-9E06-C40B1BC32BF3}
 		{4B62A497-0DF0-4F1C-98C0-A5829FBE72F3} = {EEBDD0EA-98AD-405C-9B04-4C987EA03577}
 		{EF1C4F78-E98B-4CFF-A9E6-32691F88C398} = {4B62A497-0DF0-4F1C-98C0-A5829FBE72F3}
+		{DEBA669E-113F-4DA0-B982-0017C79B40E3} = {F40B6900-2B16-404A-BB0E-1E0604105F8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CE581C6D-413D-44B4-A928-06D2F4BE3B65}

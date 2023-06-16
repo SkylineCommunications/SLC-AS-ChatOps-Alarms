@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DMSScript options="272" xmlns="http://www.skyline.be/automation">
-	<Name>GetServiceHistoryAlarm</Name>
+	<Name>Service History Alarms</Name>
 	<Description></Description>
 	<Type>Automation</Type>
 	<Author>SKYLINE2\FlavioME</Author>
 	<CheckSets>FALSE</CheckSets>
-	<Folder></Folder>
+	<Folder>ChatOps/Teams/CustomCommands/bot/Integration</Folder>
 
 	<Protocols>
 	</Protocols>
@@ -16,12 +16,6 @@
 	<Parameters>
 		<ScriptParameter id="10" type="string" values="">
 			<Description>Service Name</Description>
-		</ScriptParameter>
-		<ScriptParameter id="11" type="string" values="">
-			<Description>Start Date</Description>
-		</ScriptParameter>
-		<ScriptParameter id="12" type="string" values="">
-			<Description>End Date</Description>
 		</ScriptParameter>
 	</Parameters>
 

@@ -52,9 +52,9 @@ dd/mm/2023	1.0.0.1		XXX, Skyline	Initial version
 namespace GetElementHistoryAlarms_1
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Globalization;
+	using System.Linq;
 	using Newtonsoft.Json;
+	using ShowAlarmsLibrary;
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Filters;
 	using Skyline.DataMiner.Net.Messages;
@@ -70,7 +70,6 @@ namespace GetElementHistoryAlarms_1
 		/// <param name="engine">Link with SLAutomation process.</param>
 		public void Run(IEngine engine)
 		{
-			// format (ISO-8601): yyyy-MM-ddTHH:mm:ssZ
 			var serviceName = engine.GetScriptParam("Service Name")?.Value;
 
 			if (string.IsNullOrWhiteSpace(serviceName))
@@ -101,20 +100,6 @@ namespace GetElementHistoryAlarms_1
 				return;
 			}
 
-			DateTime startDate;
-			if (!DateTime.TryParseExact(fromdatetime.Replace("S", string.Empty), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDate))
-			{
-				engine.ExitFail("'Start Date' should be provided with the following format: 'yyyy-MM-ddTHH:mm:ss'.");
-				return;
-			}
-
-			DateTime endDate;
-			if (!DateTime.TryParseExact(todatetime.Replace("S", string.Empty), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDate))
-			{
-				engine.ExitFail("'End Date' should be provided with the following format: 'yyyy-MM-ddTHH:mm:ss'.");
-				return;
-			}
-
 			AlarmFilterItem filterItem = new AlarmFilterItemString(
 				AlarmFilterField.ServiceName,
 				AlarmFilterCompareType.WildcardEquality,
@@ -135,45 +120,22 @@ namespace GetElementHistoryAlarms_1
 				AlarmFilterCompareType.WildcardNonEquality,
 				new[] { 5 /*normal*/ });
 
+			var dateNow = DateTime.Now;
 			var request = new GetAlarmDetailsFromDbMessage(
 				dataMinerID: service.DmaId,
 				filter: new AlarmFilter(filterItem, filterOpen, filterServiceImpact, filterSeverity),
-				startTime: startDate,
-				endTime: endDate,
+				startTime: dateNow.AddHours(-24),
+				endTime: dateNow,
 				alarmTable: true,
-				infoTable: false
-			);
+				infoTable: false);
 
 			var response = engine.SendSLNetMessage(request);
 
-			CurrentAlarms output = new CurrentAlarms { Alarms = new List<Alarm>() };
-			foreach (AlarmEventMessage alarm in response)
-			{
-				output.Alarms.Add(
-					new Alarm
-					{
-						ParameterName = alarm.ParameterName,
-						ParameterValue = alarm.Value,
-						Severity = alarm.Severity,
-					});
-			}
+			var adaptiveCardBody = AlarmsUtils.CreateAdaptiveCard(
+				message: $"History Alarms for {serviceName}.",
+				alarms: response.Select(alarm => (AlarmEventMessage)alarm));
 
-			// engine.GenerateInformation(JsonConvert.SerializeObject(output));
-			engine.AddSingularJsonOutput(JsonConvert.SerializeObject(output));
+			engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(adaptiveCardBody));
 		}
-	}
-
-	public class CurrentAlarms
-	{
-		public List<Alarm> Alarms { get; set; }
-	}
-
-	public class Alarm
-	{
-		public string ParameterName { get; set; }
-
-		public string ParameterValue { get; set; }
-
-		public string Severity { get; set; }
 	}
 }

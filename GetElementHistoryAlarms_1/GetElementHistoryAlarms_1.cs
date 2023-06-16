@@ -52,14 +52,11 @@ dd/mm/2023	1.0.0.1		XXX, Skyline	Initial version
 namespace GetElementHistoryAlarms_1
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Globalization;
 	using System.Linq;
-	using AdaptiveCards;
 	using Newtonsoft.Json;
+	using ShowAlarmsLibrary;
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Filters;
-	using Skyline.DataMiner.Net.Helper;
 	using Skyline.DataMiner.Net.Messages;
 
 	/// <summary>
@@ -73,7 +70,6 @@ namespace GetElementHistoryAlarms_1
 		/// <param name="engine">Link with SLAutomation process.</param>
 		public void Run(IEngine engine)
 		{
-			// format (ISO-8601): yyyy-MM-ddTHH:mm:ssZ
 			var elementName = engine.GetScriptParam("Element Name")?.Value;
 
 			if (string.IsNullOrWhiteSpace(elementName))
@@ -104,20 +100,6 @@ namespace GetElementHistoryAlarms_1
 				return;
 			}
 
-			DateTime startDate;
-			if (!DateTime.TryParseExact(fromdatetime.Replace("S", string.Empty), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDate))
-			{
-				engine.ExitFail("'Start Date' should be provided with the following format: 'yyyy-MM-ddTHH:mm:ss'.");
-				return;
-			}
-
-			DateTime endDate;
-			if (!DateTime.TryParseExact(todatetime.Replace("S", string.Empty), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDate))
-			{
-				engine.ExitFail("'End Date' should be provided with the following format: 'yyyy-MM-ddTHH:mm:ss'.");
-				return;
-			}
-
 			AlarmFilterItem filterItem = new AlarmFilterItemString(
 				AlarmFilterField.ElementID,
 				AlarmFilterCompareType.WildcardEquality,
@@ -133,103 +115,22 @@ namespace GetElementHistoryAlarms_1
 				AlarmFilterCompareType.WildcardNonEquality,
 				new[] { 5 /*normal*/ });
 
+			var dateNow = DateTime.Now;
 			var request = new GetAlarmDetailsFromDbMessage(
 				dataMinerID: element.DmaId,
 				filter: new AlarmFilter(filterItem, filterOpen, filterSeverity),
-				startTime: startDate,
-				endTime: endDate,
+				startTime: dateNow.AddHours(-24),
+				endTime: dateNow,
 				alarmTable: true,
-				infoTable: false
-			);
+				infoTable: false);
 
 			var response = engine.SendSLNetMessage(request);
 
-			//CurrentAlarms output = new CurrentAlarms { Alarms = new List<Alarm>() };
-
-			//foreach (AlarmEventMessage alarm in response)
-			//{
-			//	output.Alarms.Add(
-			//		new Alarm
-			//		{
-			//			ParameterName = alarm.ParameterName,
-			//			ParameterValue = alarm.Value,
-			//			Severity = alarm.Severity,
-			//		});
-			//}
-
-			//engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(output));
-
-			var adaptiveCardBody = new List<AdaptiveElement>();
-			adaptiveCardBody.Add(new AdaptiveTextBlock
-			{
-				Type = "TextBlock",
-				Text = $"Current Alarms for {elementName}.",
-				Weight = AdaptiveTextWeight.Bolder,
-				Size = AdaptiveTextSize.Large,
-			});
-
-			response.OrderBy(x => ((AlarmEventMessage)x).Severity)
-				.ThenByDescending(x => ((AlarmEventMessage)x).RootTime)
-				.Take(10)
-				.ForEach(x =>
-				{
-					var alarm = (AlarmEventMessage)x;
-					var infoFacts = new AdaptiveFactSet
-					{
-						Type = "FactSet",
-						Facts = new List<AdaptiveFact>
-						{
-							new AdaptiveFact("Parameter:", alarm.ParameterName),
-							new AdaptiveFact("Value:", alarm.Value),
-							new AdaptiveFact("Severity:", alarm.Severity),
-						},
-					};
-
-					var bpaResultsContainer = new AdaptiveContainer
-					{
-						Type = "Container",
-						Style = SeverityToContainerStyle(alarm.Severity),
-						Items = new List<AdaptiveElement> { infoFacts },
-					};
-
-					adaptiveCardBody.Add(bpaResultsContainer);
-				});
+			var adaptiveCardBody = AlarmsUtils.CreateAdaptiveCard(
+				message: $"History Alarms for {elementName}.",
+				alarms: response.Select(alarm => (AlarmEventMessage)alarm));
 
 			engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(adaptiveCardBody));
 		}
-
-		private AdaptiveContainerStyle SeverityToContainerStyle(string severity)
-		{
-			switch (severity)
-			{
-				case "Warning":
-				case "Minor":
-					return AdaptiveContainerStyle.Warning;
-
-				case "Major":
-				case "Critical":
-					return AdaptiveContainerStyle.Attention;
-
-				case "Normal":
-					return AdaptiveContainerStyle.Good;
-
-				default:
-					return AdaptiveContainerStyle.Emphasis;
-			}
-		}
-	}
-
-	public class CurrentAlarms
-	{
-		public List<Alarm> Alarms { get; set; }
-	}
-
-	public class Alarm
-	{
-		public string ParameterName { get; set; }
-
-		public string ParameterValue { get; set; }
-
-		public string Severity { get; set; }
 	}
 }

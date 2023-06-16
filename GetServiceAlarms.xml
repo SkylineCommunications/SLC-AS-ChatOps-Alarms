@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DMSScript options="272" xmlns="http://www.skyline.be/automation">
-	<Name>GetServiceAlarms</Name>
+	<Name>Service Alarms</Name>
 	<Description></Description>
 	<Type>Automation</Type>
 	<Author>SKYLINE2\FlavioME</Author>
 	<CheckSets>FALSE</CheckSets>
-	<Folder></Folder>
+	<Folder>ChatOps/Teams/CustomCommands/bot/Integration</Folder>
 
 	<Protocols>
 	</Protocols>

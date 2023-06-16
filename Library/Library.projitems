@@ -9,5 +9,6 @@
     <Import_RootNamespace>Library</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AlarmsUtils.cs" />
   </ItemGroup>
 </Project>

@@ -51,12 +51,9 @@ dd/mm/2023	1.0.0.1		XXX, Skyline	Initial version
 
 namespace GetElementAlarms_1
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using AdaptiveCards;
 	using Newtonsoft.Json;
+	using ShowAlarmsLibrary;
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.Helper;
 	using Skyline.DataMiner.Net.Messages;
 
 	/// <summary>
@@ -87,66 +84,13 @@ namespace GetElementAlarms_1
 			}
 
 			var request = new GetActiveAlarmsMessage(element.DmaId, element.ElementId);
-
 			var response = (ActiveAlarmsResponseMessage)engine.SendSLNetSingleResponseMessage(request);
-			AlarmEventMessage[] alarms = response.ActiveAlarms;
 
-			var adaptiveCardBody = new List<AdaptiveElement>();
-			adaptiveCardBody.Add(new AdaptiveTextBlock
-			{
-				Type = "TextBlock",
-				Text = $"Current Alarms for {elementName}.",
-				Weight = AdaptiveTextWeight.Bolder,
-				Size = AdaptiveTextSize.Large,
-			});
-
-			alarms.OrderBy(x => x.Severity)
-				.ThenByDescending(x => x.RootTime)
-				.Take(10)
-				.ForEach(a =>
-				{
-					var infoFacts = new AdaptiveFactSet
-					{
-						Type = "FactSet",
-						Facts = new List<AdaptiveFact>
-						{
-							new AdaptiveFact("Parameter:", a.ParameterName),
-							new AdaptiveFact("Value:", a.Value),
-							new AdaptiveFact("Severity:", a.Severity),
-						},
-					};
-
-					var bpaResultsContainer = new AdaptiveContainer
-					{
-						Type = "Container",
-						Style = SeverityToContainerStyle(a.Severity),
-						Items = new List<AdaptiveElement> { infoFacts },
-					};
-
-					adaptiveCardBody.Add(bpaResultsContainer);
-				});
+			var adaptiveCardBody = AlarmsUtils.CreateAdaptiveCard(
+				message: $"Current Alarms for {elementName}.",
+				alarms: response.ActiveAlarms);
 
 			engine.AddScriptOutput("AdaptiveCard", JsonConvert.SerializeObject(adaptiveCardBody));
-		}
-
-		private AdaptiveContainerStyle SeverityToContainerStyle(string severity)
-		{
-			switch (severity)
-			{
-				case "Warning":
-				case "Minor":
-					return AdaptiveContainerStyle.Warning;
-
-				case "Major":
-				case "Critical":
-					return AdaptiveContainerStyle.Attention;
-
-				case "Normal":
-					return AdaptiveContainerStyle.Good;
-
-				default:
-					return AdaptiveContainerStyle.Emphasis;
-			}
 		}
 	}
 }
