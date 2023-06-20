@@ -86,20 +86,6 @@ namespace GetElementHistoryAlarms_1
 				return;
 			}
 
-			var fromdatetime = engine.GetScriptParam("Start Date")?.Value;
-			if (string.IsNullOrWhiteSpace(fromdatetime))
-			{
-				engine.ExitFail("A 'Start Date' is required.");
-				return;
-			}
-
-			var todatetime = engine.GetScriptParam("End Date")?.Value;
-			if (string.IsNullOrWhiteSpace(todatetime))
-			{
-				engine.ExitFail("An 'End Date' is required.");
-				return;
-			}
-
 			AlarmFilterItem filterItem = new AlarmFilterItemString(
 				AlarmFilterField.ElementID,
 				AlarmFilterCompareType.WildcardEquality,
@@ -119,7 +105,7 @@ namespace GetElementHistoryAlarms_1
 			var request = new GetAlarmDetailsFromDbMessage(
 				dataMinerID: element.DmaId,
 				filter: new AlarmFilter(filterItem, filterOpen, filterSeverity),
-				startTime: dateNow.AddHours(-24),
+				startTime: dateNow.AddHours(-6),
 				endTime: dateNow,
 				alarmTable: true,
 				infoTable: false);

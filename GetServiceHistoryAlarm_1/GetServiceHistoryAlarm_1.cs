@@ -82,21 +82,7 @@ namespace GetElementHistoryAlarms_1
 
 			if (service == default(Service))
 			{
-				engine.ExitFail($"'{serviceName}' element not found!");
-				return;
-			}
-
-			var fromdatetime = engine.GetScriptParam("Start Date")?.Value;
-			if (string.IsNullOrWhiteSpace(fromdatetime))
-			{
-				engine.ExitFail("A 'Start Date' is required.");
-				return;
-			}
-
-			var todatetime = engine.GetScriptParam("End Date")?.Value;
-			if (string.IsNullOrWhiteSpace(todatetime))
-			{
-				engine.ExitFail("An 'End Date' is required.");
+				engine.ExitFail($"'{serviceName}' service not found!");
 				return;
 			}
 
@@ -124,7 +110,7 @@ namespace GetElementHistoryAlarms_1
 			var request = new GetAlarmDetailsFromDbMessage(
 				dataMinerID: service.DmaId,
 				filter: new AlarmFilter(filterItem, filterOpen, filterServiceImpact, filterSeverity),
-				startTime: dateNow.AddHours(-24),
+				startTime: dateNow.AddHours(-6),
 				endTime: dateNow,
 				alarmTable: true,
 				infoTable: false);
